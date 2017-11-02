@@ -1,0 +1,7 @@
+#Wed Nov 01 18:42:47 EDT 2017
+base.0=/Users/CarlosAlmonte/Desktop/HelloWorld/platforms/android/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_b4f1febc13d744d2023444b2cbba3caa3107a442
+renamed.1=classes2.dex
+renamed.0=classes.dex
+file.1=/Users/CarlosAlmonte/Desktop/HelloWorld/platforms/android/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_d62d13db8d18d13999b65bbb286f4b3a10a7ec96/classes.dex
+base.1=/Users/CarlosAlmonte/Desktop/HelloWorld/platforms/android/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_d62d13db8d18d13999b65bbb286f4b3a10a7ec96
+file.0=/Users/CarlosAlmonte/Desktop/HelloWorld/platforms/android/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_b4f1febc13d744d2023444b2cbba3caa3107a442/classes.dex

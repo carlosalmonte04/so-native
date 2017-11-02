@@ -1,0 +1,4 @@
+#Wed Nov 01 18:42:46 EDT 2017
+base.0=/Users/CarlosAlmonte/Desktop/HelloWorld/platforms/android/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_2
+renamed.0=classes.dex
+file.0=/Users/CarlosAlmonte/Desktop/HelloWorld/platforms/android/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_2/classes.dex

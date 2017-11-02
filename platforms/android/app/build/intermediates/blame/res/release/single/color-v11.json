@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "/Users/CarlosAlmonte/Desktop/HelloWorld/platforms/android/app/build/intermediates/res/merged/release/color-v11/abc_background_cache_hint_selector_material_light.xml",
+        "source": "/Users/CarlosAlmonte/.android/build-cache/8db8ac6cec417f0ba9840abb3e2b624373da380a/output/res/color-v11/abc_background_cache_hint_selector_material_light.xml"
+    },
+    {
+        "merged": "/Users/CarlosAlmonte/Desktop/HelloWorld/platforms/android/app/build/intermediates/res/merged/release/color-v11/abc_background_cache_hint_selector_material_dark.xml",
+        "source": "/Users/CarlosAlmonte/.android/build-cache/8db8ac6cec417f0ba9840abb3e2b624373da380a/output/res/color-v11/abc_background_cache_hint_selector_material_dark.xml"
+    }
+]
