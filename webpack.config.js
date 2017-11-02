@@ -107,12 +107,13 @@ const webConfig = {
       use: [{
         loader: 'babel-loader'
       }],
-      exclude: /node_modules(?!\/.*(weex).*)/
+      exclude: [/node_modules(?!\/.*(weex).*)/]
     }, {
       test: /\.vue(\?[^?]+)?$/,
       use: [{
         loader: 'vue-loader'
-      }]
+      }],
+      exclude: [/node_modules(?!\/.*(cordova).*)/]
     }]
   },
   /*

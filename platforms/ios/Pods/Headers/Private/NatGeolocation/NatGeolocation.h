@@ -1,1 +1,0 @@
-../../../NatGeolocation/ios/Classes/NatGeolocation.h

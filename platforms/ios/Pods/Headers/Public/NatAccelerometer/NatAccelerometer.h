@@ -1,1 +1,0 @@
-../../../NatAccelerometer/ios/Classes/NatAccelerometer.h

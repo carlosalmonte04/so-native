@@ -1,1 +1,0 @@
-../../../NatDeviceInfo/ios/Classes/NatDeviceInfo.h

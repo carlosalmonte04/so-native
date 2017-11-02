@@ -1,1 +1,0 @@
-../../../NatCamera/ios/Classes/NatCamera.h
