@@ -88,7 +88,6 @@ export default {
     }
   },
   mounted () {
-    console.log("")
     _initializeView.call(this)
   },
   methods: {
