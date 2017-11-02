@@ -1,42 +1,66 @@
 {
-    "nat-camera": {
-        "source": {
-            "type": "registry",
-            "id": "nat-camera"
-        },
-        "is_top_level": true,
-        "variables": {}
+  "nat-camera": {
+    "source": {
+      "type": "registry",
+      "id": "nat-camera"
     },
-    "nat-sensor-accelerometer": {
-        "source": {
-            "type": "registry",
-            "id": "nat-sensor-accelerometer"
-        },
-        "is_top_level": true,
-        "variables": {}
+    "is_top_level": true,
+    "variables": {}
+  },
+  "nat-sensor-accelerometer": {
+    "source": {
+      "type": "registry",
+      "id": "nat-sensor-accelerometer"
     },
-    "weex-adapter-image": {
-        "source": {
-            "type": "registry",
-            "id": "weex-adapter-image"
-        },
-        "is_top_level": false,
-        "variables": {}
+    "is_top_level": true,
+    "variables": {}
+  },
+  "weex-adapter-image": {
+    "source": {
+      "type": "registry",
+      "id": "weex-adapter-image"
     },
-    "nat-geolocation": {
-        "source": {
-            "type": "registry",
-            "id": "nat-geolocation"
-        },
-        "is_top_level": true,
-        "variables": {}
+    "is_top_level": false,
+    "variables": {}
+  },
+  "nat-geolocation": {
+    "source": {
+      "type": "registry",
+      "id": "nat-geolocation"
     },
-    "nat-device-info": {
-        "source": {
-            "type": "registry",
-            "id": "nat-device-info"
-        },
-        "is_top_level": true,
-        "variables": {}
-    }
+    "is_top_level": true,
+    "variables": {}
+  },
+  "nat-device-info": {
+    "source": {
+      "type": "registry",
+      "id": "nat-device-info"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-barcodescanner": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-barcodescanner@^0.7.3"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-compat": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-compat@^1.0.0"
+    },
+    "is_top_level": false,
+    "variables": {}
+  },
+  "cordova-plugin-whitelist": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-whitelist@1"
+    },
+    "is_top_level": true,
+    "variables": {}
+  }
 }

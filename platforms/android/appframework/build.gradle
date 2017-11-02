@@ -4,7 +4,7 @@ buildscript {
     jcenter()
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:2.3.3'
+    classpath 'com.android.tools.build:gradle:2.2.2'
   }
 }
 apply plugin: 'com.android.library'
@@ -15,7 +15,7 @@ repositories {
 
 android {
   compileSdkVersion 23
-  buildToolsVersion '25.0.0'
+  buildToolsVersion "23.0.2"
   resourcePrefix "appframework"
 
   defaultConfig {
