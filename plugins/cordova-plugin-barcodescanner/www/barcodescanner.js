@@ -126,4 +126,5 @@ var ScannerLoader = function (require, exports, module) {
 
 ScannerLoader(require, exports, module);
 
-cordova.define("cordova/plugin/BarcodeScanner", ScannerLoader);
+// cordova.define("cordova/plugin/BarcodeScanner", ScannerLoader);
+Vue.use(ScannerLoader)

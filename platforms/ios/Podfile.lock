@@ -1,0 +1,51 @@
+PODS:
+  - AMap3DMap (4.6.1):
+    - AMapFoundation (~> 1.3)
+  - AMapFoundation (1.4.2)
+  - NatAccelerometer (0.0.2)
+  - NatCamera (0.0.2)
+  - NatDeviceInfo (0.0.2)
+  - NatGeolocation (0.0.6)
+  - SDWebImage (3.7.5):
+    - SDWebImage/Core (= 3.7.5)
+  - SDWebImage/Core (3.7.5)
+  - SocketRocket (0.4.2)
+  - Weexplugin (0.0.1):
+    - AMap3DMap (= 4.6.1)
+    - NatAccelerometer (= 0.0.2)
+    - NatCamera (= 0.0.2)
+    - NatDeviceInfo (= 0.0.2)
+    - NatGeolocation (= 0.0.6)
+    - WeexSDK
+  - WeexSDK (0.15.1):
+    - SocketRocket
+  - WXDevtool (0.15.3):
+    - WeexSDK
+
+DEPENDENCIES:
+  - SDWebImage (= 3.7.5)
+  - SocketRocket (= 0.4.2)
+  - Weexplugin (from `./Weexplugin/`)
+  - WeexSDK
+  - WXDevtool
+
+EXTERNAL SOURCES:
+  Weexplugin:
+    :path: ./Weexplugin/
+
+SPEC CHECKSUMS:
+  AMap3DMap: eb6656fb441ed7eb310b3c121032e947d4d649e5
+  AMapFoundation: 6c0471c9a6a0ad17dad46e3d800ad56ca170f82a
+  NatAccelerometer: 4cdd2deda166c2e0f4bc768e9dad5bfd01ca4a9c
+  NatCamera: 99304f801d5c40511114a372e6c25edf3b56693e
+  NatDeviceInfo: fe10d92eb85c6df6d30cab1dd0800eeb3451b760
+  NatGeolocation: d209a2e3d0560ef55d4cda53d5292a4edb5a7b2a
+  SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
+  SocketRocket: ffe08119b00ef982f6c37052a4705a057c8494ad
+  Weexplugin: b60d3423bead1a8d2bc9337f19e161b9001d7466
+  WeexSDK: 5282685df6d7279213a51a3142b915759f6e3413
+  WXDevtool: 6c837383e778a9442ee500db4069a95be321dac6
+
+PODFILE CHECKSUM: c6ed15375cb2c98afe17202b5fbdcd40154f7245
+
+COCOAPODS: 1.3.1

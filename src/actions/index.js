@@ -1,48 +1,68 @@
 import Nat from 'natjs'
 import { pedometer } from 'pedometer'
 
+let accelerometerHistory = []
+let altitudeHistory = []
+let counter    = 0
+
 // import cordova from 'cordova'
 
-function accToggle() {
-  if(this.accIsOn) {
+function _resetSteps() {
+  accelerometerHistory = []
+  altitudeHistory = []
+  counter    = 0
+}
+
+function _renderImage(picturePath) {
+  return(`
+    <image src="${picturePath}" resize="cover"></image>
+  `)
+}
+
+export function accelerometerToggle() {
+  if(this.accelerometerIsOn) {
     Nat.accelerometer.clearWatch()
     this.steps = 0
-    resetSteps()
+    _resetSteps()
   }
   else {
     Nat.accelerometer.watch((err, coords) => {
       let { x, y, z } = coords
 
-      accHistory.push([x, y, z])
-      altHistory.push([x, y, z]) // Should be [pitch, roll, yawn]. No native components available for such data -TODO
+      accelerometerHistory.push([x, y, z])
+      altitudeHistory.push([x, y, z]) // Should be [pitch, roll, yawn]. No native components available for such data -TODO
 
       x = Math.round(x) 
       y = Math.round(y)
       z = Math.round(z)
 
-      this.accData = { x, y, z }
+      this.accelerometerData = { x, y, z }
 
       counter++
 
       if(counter == 10) { // update pedometer after 10 checks    v   
-        this.steps = pedometer(accHistory, altHistory, 100).length
+        this.steps = pedometer(accelerometerHistory, altitudeHistory, 100).length
         console.log("STEPS!!!------->", this.steps)
         counter = 0
       }
     }, {interval: 50})
   }
-  this.accIsOn = !this.accIsOn
+  this.accelerometerIsOn = !this.accelerometerIsOn
 }
 
-function captureImage() {
-  Nat.camera.captureImage({}, (err, picture) => {
+export function captureImage() {
+  return Nat.camera.captureImage({}, (err, picture) => {
     if (err) console.log("Could not capture image", err)
     console.log("Image path =>", picture.path)
-    this.path = picture.path
+    this.images.push(_renderImage(picture.path))
+    console.log("THIS IMAGES", this.images)
+    return new Promise(function(resolve, reject) {
+      resolve(picture.path)
+    })
   })
 }
 
-function scannerToggle() {
+export function scannerToggle() {
   // console.log("GOT CALLED")
   // Quagga.init({
   //     inputStream : {
@@ -53,7 +73,7 @@ function scannerToggle() {
   //     decoder : {
   //       readers : ["code_128_reader"]
   //     }
-  // },function(err) {
+  // },export function(err) {
   //     if (err) {
   //       console.log(err);
   //       return
@@ -63,15 +83,9 @@ function scannerToggle() {
   //   });
 }
 
-function getGeolocation() {
+export function getGeolocation() {
   Nat.geolocation.watch((err, loc) => {
       if(err) console.log("Could not get location", err)
       console.log("I AM THE LOCATION", loc)
   })
 }
-
-const actions = {
-  accToggle, captureImage, scannerToggle, getGeolocation
-}
-
-export default actions
