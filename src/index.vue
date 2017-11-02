@@ -5,8 +5,8 @@
       <text class="title" v-bind:style="{fontSize: ((screen.width * 0.095) + (screen.height * 0.095)).toString() + 'px'}">soNative</text>
       <text class="subtitle" v-bind:style="{fontSize: ((screen.width * 0.012) + (screen.height * 0.012)).toString() + 'px'}">Implementation of native components using Weex</text>
       <div class="modules-container">
-        <text class="module-toggle" animationToggle="isCamActive" v-bind:class="{ active: isCamActive}" @click="handleCaptureImage" >Camera</text>
-        <text class="module-toggle" animationToggle="isAccActive" v-bind:class="{ active: isAccActive}" @click="handleAccelerometerToggle" >Accelerometer</text>
+        <text class="module-toggle" animationSwitch="isCamActive" v-bind:class="{ active: isCamActive}" @click="handleCaptureImage" >Camera</text>
+        <text class="module-toggle" animationSwitch="isAccActive" v-bind:class="{ active: isAccActive}" @click="handleAccelerometerToggle" >Accelerometer</text>
         <div class="module-text-container">
           <div class="box">
             <text class="module-text" >X: </text><text class="accelerometer-data">{{accelerometerData.x}}</text>
@@ -19,14 +19,14 @@
           </div>
         </div>
         <!-- <video ref="videoEl" autoplay=true muted=true playsinline=true playstatus="playing" v-on:appear="iam(this)"></video> -->
-        <text class="module-toggle" animationToggle="isScanActive" v-bind:class="{ active: isScanActive}" @click="handleScannerToggle" id="scannerElement" >Scanner</text>
-        <text class="module-toggle" animationToggle="isGeoActive" v-bind:class="{ active: isGeoActive}" @click="handleGetGeolocation" >Geolocation</text>
+        <text class="module-toggle" animationSwitch="isScanActive" v-bind:class="{ active: isScanActive}" @click="handleScannerToggle" id="scannerElement" >Scanner</text>
+        <text class="module-toggle" animationSwitch="isGeoActive" v-bind:class="{ active: isGeoActive}" @click="handleGetGeolocation" >Geolocation</text>
         <div class="module-text-container">
           <div class="box">
-            <text class="module-text" >lat: </text><text class="accelerometer-data">{{accelerometerData.x}}</text>
+            <text class="module-text" >lat: </text><text class="accelerometer-data">{{geoLocationData.x}}</text>
           </div>
           <div class="box">
-            <text class="module-text" >lon: </text><text class="accelerometer-data">{{accelerometerData.z}}</text>
+            <text class="module-text" >lon: </text><text class="accelerometer-data">{{geoLocationData.z}}</text>
           </div>
         </div>
       </div>
@@ -52,10 +52,11 @@
 </style>
 
 <script>
+///////////
 // import Quagga from 'quagga' // -TODO
 // import BarcodeScanner from '../plugins/cordova-plugin-barcodescanner/www/barcodescanner'
 // const plugin = weex.requireModule('weexMapcomponent') // -TODO
-//////////////////////////////
+///////////
 
 
 import { accelerometerToggle, captureImage, scannerToggle, getGeolocation } from './actions/index'
@@ -81,26 +82,31 @@ export default {
       y: 0,
       z: 0
     },
+    geoLocationData: {
+      lat: 0,
+      lon: 0,
+    }
   },
   mounted () {
+    console.log("")
     _initializeView.call(this)
   },
   methods: {
-    handleGetGeolocation(e, l) { // -TODO
-      _animate.call(this, e.target.attrs.animationToggle)
+    handleGetGeolocation(e) { // -TODO
+      _animateBtn.call(this, e)
       getGeolocation.call(this)
     },
     handleScannerToggle(e) { // -TODO
-      _animate.call(this, e.target.attrs.animationToggle)
+      _animateBtn.call(this, e)
       scannerToggle.call(this)
     },
     handleCaptureImage(e) {
-      _animate.call(this, e.target.attrs.animationToggle)
+      _animateBtn.call(this, e)
       captureImage.call(this)
       .then(picture => _updateBackground.call(this))
     },
     handleAccelerometerToggle(e) {
-      _animate.call(this, e.target.attrs.animationToggle)
+      _animateBtn.call(this, e)
       this.isAccActive = true
       accelerometerToggle.call(this)
     }
@@ -118,10 +124,16 @@ function _updateBackground() {
   this.$refs.background.style.opacity = 0.6
 }
 
-function _animate(animationToggle) { // Hacky web btn press feedback
-  this[animationToggle] = true
-  console.log(this.isAccActive)
-  setTimeout(() => this[animationToggle] = false, 500)
+function _animateBtn(e) { // Hacky web btn press feedback
+  let animationSwitch
+  if(weex.config.env.platform === "Web") {
+    animationSwitch = e.target.attrs.animationSwitch
+  }
+  else {
+    animationSwitch = e.target.attr.animationSwitch
+  }
+  this[animationSwitch] = true
+  setTimeout(() => this[animationSwitch] = false, 500)
 }
 
 function _initializeView() { // -TODO Rabbit hole
