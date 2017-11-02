@@ -18,7 +18,8 @@
             <text class="module-text" >Z: </text><text class="accelerometer-data">{{accelerometerData.z}}</text>
           </div>
         </div>
-        <!-- <video ref="videoEl" autoplay=true muted=true playsinline=true playstatus="playing" v-on:appear="iam(this)"></video> -->
+        <div ref="scannerElement"></div>
+        <video ref="videoEl"></video>
         <text class="module-toggle" animationSwitch="isScanActive" v-bind:class="{ active: isScanActive}" @click="handleScannerToggle" id="scannerElement" >Scanner</text>
         <text class="module-toggle" animationSwitch="isGeoActive" v-bind:class="{ active: isGeoActive}" @click="handleGetGeolocation" >Geolocation</text>
         <div class="module-text-container">
@@ -36,24 +37,13 @@
 </template>
 
 <style>
-/* -TODO: export to separate file*/
-  .wrapper { align-items: center; display: flex; align-items: center; }
-  .background {position: absolute; height: 100%; width: 100%; opacity: 0.1} 
-  .container { display: flex; align-items: center; }
-  .title { padding-top:40px; font-weight: 100; color: #262526;} /* -TODO: dynamic font-size on android*/
-  .modules-container { margin-top: 100px; display: flex; align-items: center }
-  .module-toggle { padding-top:40px; font-size: 100px; margin: 20px !important; font-weight: 300; color: #3f3e3f;border-color: #3f3e3f; border-style: solid; border-width:  3px;border-radius: 15px;padding: 0px 31px !important;cursor: pointer; text-align: center;transition-property: backgroundColor;  transition-duration: 0.5s; transition-delay: 0s;transition-timing-function: ease;}
-  .module-toggle.active {background-color: #cbc5cb} /* -TODO native feedback*/
-  .box { display: flex; flex-direction: row; margin-left: 60px; }
-  .module-text-container { display: flex; flex-direction: row; justify-content: space-between; }
-  .module-text { font-size: 22px}
-  .logo { width: 360px; height: 156px; }
-  .desc { padding-top: 20px; color:#888; font-size: 24px;}
+  @import './assets/stylesheets/style.css';
 </style>
+
 
 <script>
 ///////////
-// import Quagga from 'quagga' // -TODO
+import Quagga from 'quagga' // -TODO
 // import BarcodeScanner from '../plugins/cordova-plugin-barcodescanner/www/barcodescanner'
 // const plugin = weex.requireModule('weexMapcomponent') // -TODO
 ///////////
@@ -147,23 +137,23 @@ function _initializeView() { // -TODO Rabbit hole
   //   function (error) {
   //     alert("Scanning failed: " + error);
   //   })
-  // Quagga.init({
-  //   inputStream : {
-  //     name : "Live",
-  //     type : "LiveStream",
-  //     target: this.$refs.scannerElement.$el,
-  //     videoEl: this.$refs.videoEl.$el,
-  //   },
-  //   decoder : {
-  //     readers : ["code_128_reader"]
-  //   }
-  // },function(err) {
-  //     if (err) {
-  //       console.log(err);
-  //       return
-  //     }
-  //     console.log("Initialization finished. Ready to start");
-  //     Quagga.start();
-  //   });
+  Quagga.init({
+    inputStream : {
+      name : "Live",
+      type : "LiveStream",
+      target: this.$refs.scannerElement.$el,
+      videoEl: this.$refs.videoEl.$el,
+    },
+    decoder : {
+      readers : ["code_128_reader"]
+    }
+  },function(err) {
+      if (err) {
+        console.log(err);
+        return
+      }
+      console.log("Initialization finished. Ready to start");
+      Quagga.start();
+    });
 }
 </script>

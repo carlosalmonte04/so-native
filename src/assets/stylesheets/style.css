@@ -1,0 +1,69 @@
+.wrapper { 
+  align-items: center;
+  display: flex;  
+  align-items: center;
+}
+
+.background {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  opacity: 0.1
+ } 
+.container { 
+  display: flex;
+  align-items: center;
+}
+.title { 
+  padding-top:40px;
+  font-weight: 100;
+  color: #262526;
+} /* -TODO: dynamic font-size on android*/
+.modules-container { 
+  margin-top: 100px;
+  display: flex;
+  align-items: center
+}
+.module-toggle { 
+  padding-top:40px;
+  font-size: 100px;
+  margin: 20px !important;
+  font-weight: 300;
+  color: #3f3e3f;
+  border-color: #3f3e3f;
+  border-style: solid;
+  border-width:  3px;
+  border-radius: 15px;
+  padding: 0px 31px !important;
+  cursor: pointer;
+  text-align: center;
+  transition-property: backgroundColor;
+  transition-duration: 0.5s;
+  transition-delay: 0s;
+  transition-timing-function: ease;
+}
+.module-toggle.active {
+  background-color: #cbc5cb
+} /* -TODO native feedback*/
+.box {
+  display: flex;
+  flex-direction: row;
+  margin-left: 60px;
+}
+.module-text-container { 
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.module-text { 
+  font-size: 22px
+}
+.logo { 
+  width: 360px;
+  height: 156px;
+}
+.desc {
+  padding-top: 20px;
+  color:#888;
+  font-size: 24px;
+}
