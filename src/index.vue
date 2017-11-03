@@ -2,14 +2,15 @@
   <div class="wrapper" >
     <image ref="background" :src="backgroundImage" class="background" resize="cover" v-bind:style="getBackgroundStyle()"></image>
     <div class="container">
-      <title v-bind="{isWeb, isAnimationOver}"/>
-      <modulesContainer ref="cont" v-bind="{isWeb, isAnimationOver}"/>
+      <title v-bind="{isWeb, isAnimationOver}" />
+      <modulesContainer ref="modules" v-bind="{isWeb, isAnimationOver}"/>
       <footer />
+    </div>
   </div>
-</div>
 </template>
 
-<style src="./assets/stylesheets/style.css"></style>
+<style src="./assets/stylesheets/style.css" />
+
 <script>
   import Title from './components/Title.vue'
   import ModulesContainer from './components/ModulesContainer.vue'
@@ -45,6 +46,7 @@
             position: 'absolute',
             width: '100%',
             height: '100%',
+            opacity: 0,
           }
         }
         else {
@@ -95,7 +97,7 @@
       timingFunction: 'ease',
       needLayout:false,
       delay: 0 //ms
-    }, ___manuallySetOpacity.bind(this))
+    })
   }
 
   function __fadeInTitle() {
@@ -111,7 +113,20 @@
     })
   }
 
+  function __fadeInModulesContainer() {
+    animation.transition(this.$refs.modules.$refs.container, {
+      styles: {
+        opacity: 1,
+      },
+      duration: 3000, //ms
+      timingFunction: 'ease',
+      needLayout:false,
+      delay: 0 //ms
+    }) 
+  }
+
   function _initializeView() {
     this.isWeb ? __fadeInBackground.call(this) : null // -TODO animate on mobile
+    setTimeout(__fadeInModulesContainer.bind(this), 3000)
   }
 </script>

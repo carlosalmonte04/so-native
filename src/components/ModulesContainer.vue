@@ -1,11 +1,13 @@
 <template>
-  <div class="modules-container">
-    <camera ref="camera"       v-bind="{isWeb, isAnimationOver, isCamActive, handleCaptureImage}" />
+  <div ref="container" class="modules-container" v-bind:class="{ web: isWeb }" >
+    <camera        v-bind="{isWeb, isAnimationOver, isCamActive, handleCaptureImage}" ref="camera" />
     <accelerometer v-bind="{isWeb, isAnimationOver, isAccActive, handleAccelerometerToggle, accelerometerCoords}" />
     <scanner       v-bind="{isWeb, isAnimationOver, isScanActive, handleScannerToggle}" />
     <geolocation   v-bind="{isWeb, isAnimationOver, isGeoActive, handleGetGeolocation, address, geolocationCoords}" />
   </div>
 </template>
+<style src="../assets/stylesheets/style.css" />
+
 <script>
   import { captureImage, accelerometerToggle, scannerToggle, getGeolocation } from '../actions/index'
   import Camera from './modules/Camera.vue'
@@ -38,7 +40,8 @@
         geolocationCoords: {
           latitude: 0,
           longitude: 0,
-        }
+        },
+        images: []
       }
     },
     mounted() {
@@ -50,7 +53,6 @@
         .then( picture => this.updateBackground() )
       },
       handleAccelerometerToggle(e) {
-        this.accelerometerIsOn = !this.accelerometerIsOn
         this.animateBtn(e)
         accelerometerToggle.call(this)
       },

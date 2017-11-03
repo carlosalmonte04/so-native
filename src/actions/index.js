@@ -7,37 +7,6 @@ let counter              = 0
 let altitudeHistory      = []
 let accelerometerHistory = []
 
-export function accelerometerToggle() {
-  if(this.accelerometerIsOn) {
-    Nat.accelerometer.clearWatch()
-    this.steps = 0
-    _resetSteps()
-  }
-  else {
-    Nat.accelerometer.watch((err, coords) => {
-      let { x, y, z } = coords
-
-      accelerometerHistory.push([x, y, z])
-      altitudeHistory.push([x, y, z]) // -TODO Should be [pitch, roll, yawn]. No native components available for such data
-
-      x = Math.round(x) 
-      y = Math.round(y)
-      z = Math.round(z)
-
-      this.accelerometerCoords = { x, y, z }
-
-      counter++
-
-      if(counter == 10) { // update pedometer after 10 checks   
-        this.steps = pedometer(accelerometerHistory, altitudeHistory, 500).length // -TODO O(n^2)!!! Revisit! --init arrays, save steps in hashmap
-        console.log("STEPS!!!------->", this.steps)
-        counter = 0
-      }
-    }, {interval: 50})
-  }
-  this.accelerometerIsOn = !this.accelerometerIsOn
-}
-
 export function captureImage() {
   this.isWeb ? _getWebCamera.call(this) : _getMobileCamera.call(this)
 }
@@ -50,11 +19,46 @@ export function getGeolocation() {
   (this.isWeb && "geolocation" in navigator) ? _getWebLocation.call(this) : _getMobileLocation.call(this)
 }
 
+export function accelerometerToggle() {
+  this.accelerometerIsOn ? _stopAccelerometer.call(this) : _startAccelerometer.call(this)
+}
+
 ////////
 //
 // helper functions
 //
 ////////
+
+function _stopAccelerometer() {
+  Nat.accelerometer.clearWatch()
+  this.steps = 0
+  _resetSteps()
+  this.accelerometerIsOn = !this.accelerometerIsOn
+}
+
+function _startAccelerometer() {
+  Nat.accelerometer.watch((err, coords) => {
+    let { x, y, z } = coords
+
+    accelerometerHistory.push([x, y, z])
+    altitudeHistory.push([x, y, z]) // -TODO Should be [pitch, roll, yawn]. No native components available for such data
+
+    x = Math.round(x) 
+    y = Math.round(y)
+    z = Math.round(z)
+
+    this.accelerometerCoords = { x, y, z }
+
+    counter++
+
+    if(counter == 10) { // update pedometer after 10 checks   
+      this.steps = pedometer(accelerometerHistory, altitudeHistory, 500).length // -TODO O(n^2)!!! Revisit! --init arrays, save steps in hashmap
+      console.log("STEPS!!!------->", this.steps)
+      counter = 0
+    }
+  }, {interval: 50})
+  this.accelerometerIsOn = !this.accelerometerIsOn
+}
 
 function _resetSteps() {
   counter              = 0
@@ -69,10 +73,11 @@ function _renderImage(picturePath) {
 }
 
 function _getMobileCamera() {
+  let that = this
   Nat.camera.captureImage({}, (err, picture) => {
     if (err) console.log("Could not capture image", err)
 
-    this.images.push(_renderImage(picture.path))
+    that.images.push(_renderImage(picture.path))
     return new Promise(function(resolve, reject) {
       resolve(picture.path)
     })
@@ -81,13 +86,12 @@ function _getMobileCamera() {
 
 function _getWebCamera() {
   return new Promise((resolve, reject) => {
-    resolve(this.$refs.imgPicker.$el.click())
+    resolve(this.$refs.camera.$refs.imgPicker.$el.click())
   })
 }
 
 function _getWebScanner() {
-  this.$refs.imgPicker.$el.onchange = (e) => {
-    console.log("HEY", e)
+  this.$refs.imgPicker.$el.onchange = (e) => { // -TODO bubble event
     Quagga.decodeSingle({src: e.value}, function(result) {
     })
   }
@@ -95,10 +99,10 @@ function _getWebScanner() {
 }
 
 function _getWebLocation() {
+  let that = this
   navigator.geolocation.getCurrentPosition(function(position) {
     const { latitude, longitude } = position.coords
-    console.log("LAT", latitude, "LON", longitude)
-    __fetchAndRenderLocation.call(this, latitude, longitude);
+    __fetchAndRenderLocation.call(that, latitude, longitude);
   })
 }
 
@@ -112,16 +116,16 @@ function _getMobileLocation() {
 }
 
 function __fetchAndRenderLocation(latitude, longitude) {
-  console.log("CALLED?")
+  let scope = this
   stream.fetch({
       method: 'GET',
       type: 'json',
-      url: `http://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&sensor=true`
-    }, (response) => {
+      url: `https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyBZaIlmEzmho9ltpSZY1g2at6rXAYdJZfM&latlng=${latitude},${longitude}&sensor=true`
+    }, function(response) {
       const address = response.data.results[0].formatted_address
       const location = { address, latitude, longitude }
       this.isWeb ? ___renderWebLocation.call(this, location) : ___renderMobileLocation.call(this, location)
-    })
+    }.bind(this))
 }
 
 function ___renderMobileLocation(location) {

@@ -3,6 +3,7 @@
     <text ref="title" class="title" v-bind:class="{web: isWeb}">soNative</text>
   </div>
 </template>
+<style src="../assets/stylesheets/style.css" />
 
 
 <script>

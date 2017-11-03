@@ -14,6 +14,7 @@
     </div>
   </div>
 </template>
+<style src="../../assets/stylesheets/style.css" />
 
 <script>
   export default {

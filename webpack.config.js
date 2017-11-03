@@ -12,18 +12,19 @@ let fileType = '';
 const getEntryFileContent = (entryPath, vueFilePath) => {
     let relativePath = pathTo.relative(pathTo.join(entryPath, '../'), vueFilePath);
     let contents = '';
+    const isIndex = relativePath.includes('index')
     /**
      * The plugin's logic currently only supports the .we version
      * which will be supported later in .vue
      */
-    if (hasPluginInstalled) {
+    if (hasPluginInstalled && isIndex) {
       const plugindir = pathTo.resolve('./web/plugin.js');
       contents = 'require(\'' + plugindir + '\') \n';
     }
     if (isWin) {
       relativePath = relativePath.replace(/\\/g, '\\\\');
     }
-    if (relativePath.includes('index')) {
+    if (isIndex) {
       contents += 'var App = require(\'' + relativePath + '\')\n';
       contents += 'App.el = \'#root\'\n';
       contents += 'new Vue(App)\n';
