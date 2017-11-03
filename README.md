@@ -4,15 +4,14 @@ implementation of native components using weex and VueJS 2
 
 ## Getting started
 
-### on native web browsers
+### on native web browsers 
 - download
 - `cd` into repo
 - npm install
 - `npm start`
-- get `localhost` url and browse to it on your phone
+- get `localhost` url (e.g., `192.1.2.48:8081`) and browse to it on your phone
 
 ### on ios
->>>>>>> development
 - download
 - `cd` into repo
 - npm install
@@ -25,10 +24,10 @@ implementation of native components using weex and VueJS 2
 - not fully supported/tested yet
 
 ### on computer browser
-- not fullu supported/tested yet
+- not fully supported/tested yet
 
 # Demo
-![alt text](https://media.giphy.com/media/3otWpEFyYOYIiNEyc0/giphy.gif "Logo Title Text 1")
+![](https://media.giphy.com/media/l0CPbTxDLdmgHRjQk/giphy.gif "")
 
 ## Highlights
 - Implemented camera component **native**, *native browser*
@@ -39,4 +38,13 @@ implementation of native components using weex and VueJS 2
 ## Todo
 - Implement scanner
 - Refactoring
-- Follow more Vue practices
+- Save picture
+- ~~Add Google API~~
+- ~~Follow more Vue practices~~ 
+- More responsive styling
+
+## Troubleshooting
+- Upon first start on ios Weex will ask for update then crash the app regardless of pressing `cancel` or `update`.
+-- restarting the app fixes this.
+- Font sizes not dynamic. Fully tested and incorporated on iPhone6.
+- Scanner does not work.
