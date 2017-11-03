@@ -8,8 +8,9 @@
 <script>
   export default {
     name: 'Camera',
-    props: ['isWeb', 'isAnimationOver', 'handleCaptureImage'],
-	  mounted() {
-	  }
+    props: ['isWeb', 'isCamActive', 'isAnimationOver', 'handleCaptureImage'],
+    mounted() {
+      console.log("INSIDE CAMERA", this.$options)
+    }
 	}
 </script>

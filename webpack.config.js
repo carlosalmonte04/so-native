@@ -115,7 +115,7 @@ const webConfig = {
         loader: 'vue-loader'
       }],
       exclude: [/node_modules(?!\/.*(cordova).*)/]
-    }
+    },
     {
       test: /\.css$/,
       use: [ 'style-loader', 'css-loader' ]

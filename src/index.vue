@@ -2,13 +2,14 @@
   <div class="wrapper" >
     <image ref="background" :src="backgroundImage" class="background" resize="cover" v-bind:style="getBackgroundStyle()"></image>
     <div class="container">
-      <title   v-bind="{isWeb, isAnimationOver}" />
-      <modulesContainer v-bind="{isWeb, isAnimationOver}" />
+      <title v-bind="{isWeb, isAnimationOver}"/>
+      <modulesContainer ref="cont" v-bind="{isWeb, isAnimationOver}"/>
       <footer />
   </div>
 </div>
 </template>
 
+<style src="./assets/stylesheets/style.css"></style>
 <script>
   import Title from './components/Title.vue'
   import ModulesContainer from './components/ModulesContainer.vue'
@@ -36,6 +37,7 @@
     },
     mounted() {
       _initializeView.call(this)
+      console.log("OUTE PROPS CONT", this.$refs.cont.$options)
     },
     methods: {
       getBackgroundStyle() {

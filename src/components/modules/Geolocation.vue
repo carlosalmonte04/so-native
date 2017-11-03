@@ -18,6 +18,9 @@
 <script>
 	export default {
 		name: 'Geolocation',
-		props: ['isWeb', 'isAnimationOver', 'geolocationCoords', 'handleGetGeolocation'],
+		props: ['isWeb', 'isGeoActive', 'isAnimationOver', 'geolocationCoords', 'handleGetGeolocation', 'address'],
+		mounted() {
+			console.log("GEO PROPS", this.$options)
+		}
 	}
 </script>

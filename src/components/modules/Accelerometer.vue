@@ -18,9 +18,6 @@
 <script>
   export default {
     name: 'Accelerometer',
-    props: ['isWeb', 'isAnimationOver', 'accelerometerCoords', 'handleAccelerometerToggle'],
-    mounted() {
-      console.log("PROPS", this)
-    }
+    props: ['isWeb', 'isAccActive', 'isAnimationOver', 'accelerometerCoords', 'handleAccelerometerToggle']
   }
 </script>
