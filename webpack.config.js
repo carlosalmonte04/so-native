@@ -1,3 +1,4 @@
+
 const pathTo = require('path');
 const fs = require('fs-extra');
 const webpack = require('webpack');
@@ -114,7 +115,11 @@ const webConfig = {
         loader: 'vue-loader'
       }],
       exclude: [/node_modules(?!\/.*(cordova).*)/]
-    }]
+    }
+    {
+      test: /\.css$/,
+      use: [ 'style-loader', 'css-loader' ]
+      }]
   },
   /*
    * Add additional plugins to the compiler.
@@ -152,7 +157,11 @@ const weexConfig = {
       use: [{
         loader: 'weex-loader'
       }]
-    }]
+    },
+    {
+      test: /\.css$/,
+      use: [ 'style-loader', 'css-loader' ]
+      }]
   },
   /*
    * Add additional plugins to the compiler.

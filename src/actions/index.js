@@ -87,6 +87,7 @@ function _getWebCamera() {
 
 function _getWebScanner() {
   this.$refs.imgPicker.$el.onchange = (e) => {
+    console.log("HEY", e)
     Quagga.decodeSingle({src: e.value}, function(result) {
     })
   }
@@ -125,13 +126,13 @@ function __fetchAndRenderLocation(latitude, longitude) {
 
 function ___renderMobileLocation(location) {
   const { address, latitude, longitude} = location
-  this.geoLocationCoords = { latitude, longitude }
+  this.geolocationCoords = { latitude, longitude }
   this.address = address
 }
 
 function ___renderWebLocation(location) {
   const { address, latitude, longitude} = location
-  this.geoLocationCoords = { latitude, longitude }
+  this.geolocationCoords = { latitude, longitude }
   this.address = address
 }
 
