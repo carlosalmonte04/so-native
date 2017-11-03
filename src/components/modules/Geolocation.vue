@@ -20,7 +20,6 @@
 		name: 'Geolocation',
 		props: ['isWeb', 'isGeoActive', 'isAnimationOver', 'geolocationCoords', 'handleGetGeolocation', 'address'],
 		mounted() {
-			console.log("GEO PROPS", this.$options)
 		}
 	}
 </script>

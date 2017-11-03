@@ -11,7 +11,6 @@
 		name: 'scanner',
     props: ['isWeb', 'isScanActive', 'isAnimationOver', 'handleScannerToggle'],
     mounted() {
-    	console.log("I AM SCANNER", this.$options)
     }
 	}
 </script>

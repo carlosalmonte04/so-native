@@ -37,7 +37,6 @@
     },
     mounted() {
       _initializeView.call(this)
-      console.log("OUTE PROPS CONT", this.$refs.cont.$options)
     },
     methods: {
       getBackgroundStyle() {

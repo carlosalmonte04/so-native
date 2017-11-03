@@ -23,9 +23,11 @@ const getEntryFileContent = (entryPath, vueFilePath) => {
     if (isWin) {
       relativePath = relativePath.replace(/\\/g, '\\\\');
     }
-    contents += 'var App = require(\'' + relativePath + '\')\n';
-    contents += 'App.el = \'#root\'\n';
-    contents += 'new Vue(App)\n';
+    if (relativePath.includes('index')) {
+      contents += 'var App = require(\'' + relativePath + '\')\n';
+      contents += 'App.el = \'#root\'\n';
+      contents += 'new Vue(App)\n';
+    }
     return contents;
   }
   // Retrieve entry file mappings by function recursion

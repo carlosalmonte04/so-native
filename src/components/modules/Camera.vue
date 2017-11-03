@@ -10,7 +10,6 @@
     name: 'Camera',
     props: ['isWeb', 'isCamActive', 'isAnimationOver', 'handleCaptureImage'],
     mounted() {
-      console.log("INSIDE CAMERA", this.$options)
     }
 	}
 </script>

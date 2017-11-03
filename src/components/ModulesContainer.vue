@@ -42,7 +42,6 @@
       }
     },
     mounted() {
-      console.log("Container props", this.$options)
     },
     methods: {
       handleCaptureImage(e) {
