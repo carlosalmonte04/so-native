@@ -2,9 +2,7 @@
   <div class="wrapper" >
     <image ref="background" :src="backgroundImage" class="background" resize="cover" v-bind:style="getBackgroundStyle()"></image>
     <div class="container">
-      <div ref="titleContainer" class="title-container" v-bind:style="{transform: isAnimationOver ? 'translateY(-10px)' : 'translateY(10px)'  }">
-        <text ref="title" class="title" v-bind:class="{web: isWeb}">soNative</text>
-      </div>
+      <title v-bind="{isWeb, isAnimationOver}"/>
       <div class="modules-container">
         <input class="hidden" type="file" accept="image/*" capture="camera" ref="imgPicker">
         <text class="module-toggle" v-bind:class="{web: isWeb, active: isCamActive }" animationSwitch="isCamActive" @click="handleCaptureImage" >Camera</text>
@@ -48,34 +46,38 @@
 
 <script>
 import { accelerometerToggle, captureImage, scannerToggle, getGeolocation } from './actions/index'
+import Title from './components/Title.vue'
+
 const animation = weex.requireModule('animation')
 const { deviceWidth, deviceHeight } = weex.config.env
 
 export default { 
-  data: {
-    isWeb: !!(weex.config.env.platform === 'Web'),
-    steps: 0,
-    isCamActive  : false,
-    isAccActive  : false,
-    isScanActive : false,
-    isGeoActive  : false,
-    accelerometerIsOn: false,
-    isAnimationOver: false,
-    address : 'Press geolocation to get address',
-    backgroundImage: 'http://24.media.tumblr.com/fd5267ff1121b0d3eb331a2bf831f0de/tumblr_meols6ozIo1qg39ewo1_500.gif',
-    screen: {
-      height: deviceHeight,
-      width: deviceWidth
-    },
-    images: [],
-    accelerometerCoords: {
-      x: 0,
-      y: 0,
-      z: 0
-    },
-    geoLocationCoords: {
-      latitude: 0,
-      longitude: 0,
+  data: () => {
+    return {
+      isWeb: !!(weex.config.env.platform === 'Web'),
+      steps: 0,
+      isCamActive  : false,
+      isAccActive  : false,
+      isScanActive : false,
+      isGeoActive  : false,
+      accelerometerIsOn: false,
+      isAnimationOver: false,
+      address : 'Press geolocation to get address',
+      backgroundImage: 'http://24.media.tumblr.com/fd5267ff1121b0d3eb331a2bf831f0de/tumblr_meols6ozIo1qg39ewo1_500.gif',
+      screen: {
+        height: deviceHeight,
+        width: deviceWidth
+      },
+      images: [],
+      accelerometerCoords: {
+        x: 0,
+        y: 0,
+        z: 0
+      },
+      geoLocationCoords: {
+        latitude: 0,
+        longitude: 0,
+      }
     }
   },
   mounted () {
