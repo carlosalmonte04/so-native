@@ -1,5 +1,6 @@
 import Nat from 'natjs'
 import { pedometer } from 'pedometer'
+import Quagga from 'quagga' // -TODO
 var stream = weex.requireModule('stream')
 
 let counter              = 0
@@ -17,18 +18,18 @@ export function accelerometerToggle() {
       let { x, y, z } = coords
 
       accelerometerHistory.push([x, y, z])
-      altitudeHistory.push([x, y, z]) // Should be [pitch, roll, yawn]. No native components available for such data -TODO
+      altitudeHistory.push([x, y, z]) // -TODO Should be [pitch, roll, yawn]. No native components available for such data
 
       x = Math.round(x) 
       y = Math.round(y)
       z = Math.round(z)
 
-      this.accelerometerData = { x, y, z }
+      this.accelerometerCoords = { x, y, z }
 
       counter++
 
-      if(counter == 10) { // update pedometer after 10 checks    v   
-        this.steps = pedometer(accelerometerHistory, altitudeHistory, 100).length
+      if(counter == 10) { // update pedometer after 10 checks   
+        this.steps = pedometer(accelerometerHistory, altitudeHistory, 500).length // -TODO O(n^2)!!! Revisit! --init arrays, save steps in hashmap
         console.log("STEPS!!!------->", this.steps)
         counter = 0
       }
@@ -38,53 +39,15 @@ export function accelerometerToggle() {
 }
 
 export function captureImage() {
-  return Nat.camera.captureImage({}, (err, picture) => {
-    if (err) console.log("Could not capture image", err)
-    console.log("Image path =>", picture.path)
-    this.images.push(_renderImage(picture.path))
-    console.log("THIS IMAGES", this.images)
-    return new Promise(function(resolve, reject) {
-      resolve(picture.path)
-    })
-  })
+  this.isWeb ? _getWebCamera.call(this) : _getMobileCamera.call(this)
 }
 
 export function scannerToggle() {
-  // console.log("GOT CALLED")
-  // Quagga.init({
-  //     inputStream : {
-  //       name : "Live",
-  //       type : "VideoStream",
-  //       target: this.$refs.scannerElement.$el,
-  //     },
-  //     decoder : {
-  //       readers : ["code_128_reader"]
-  //     }
-  // },export function(err) {
-  //     if (err) {
-  //       console.log(err);
-  //       return
-  //     }
-  //     console.log("Initialization finished. Ready to start");
-  //     Quagga.start();
-  //   });
+  this.isWeb ? _getWebScanner.call(this) : _getMobileScanner.call(this)
 }
 
 export function getGeolocation() {
-  Nat.geolocation.get((err, location) => {
-    if(err) console.log("Could not get location", err)
-
-    const { latitude, longitude } = location
-
-    stream.fetch({
-          method: 'GET',
-          type: 'json',
-          url: `http://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&sensor=true`
-        }, (response) => {
-          this.geoLocationData = { latitude, longitude }
-          this.address = response.data.results[0].formatted_address
-        })
-  })
+  (this.isWeb && "geolocation" in navigator) ? _getWebLocation.call(this) : _getMobileLocation.call(this)
 }
 
 ////////
@@ -92,8 +55,6 @@ export function getGeolocation() {
 // helper functions
 //
 ////////
-
-
 
 function _resetSteps() {
   counter              = 0
@@ -105,4 +66,91 @@ function _renderImage(picturePath) {
   return(`
     <image src="${picturePath}" resize="cover"></image>
   `)
+}
+
+function _getMobileCamera() {
+  Nat.camera.captureImage({}, (err, picture) => {
+    if (err) console.log("Could not capture image", err)
+
+    this.images.push(_renderImage(picture.path))
+    return new Promise(function(resolve, reject) {
+      resolve(picture.path)
+    })
+  })
+}
+
+function _getWebCamera() {
+  return new Promise((resolve, reject) => {
+    resolve(this.$refs.imgPicker.$el.click())
+  })
+}
+
+function _getWebScanner() {
+  this.$refs.imgPicker.$el.onchange = (e) => {
+    Quagga.decodeSingle({src: e.value}, function(result) {
+    })
+  }
+  this.$refs.imgPicker.$el.click()
+}
+
+function _getWebLocation() {
+  navigator.geolocation.getCurrentPosition(function(position) {
+    const { latitude, longitude } = position.coords
+    console.log("LAT", latitude, "LON", longitude)
+    __fetchAndRenderLocation.call(this, latitude, longitude);
+  })
+}
+
+function _getMobileLocation() {
+  Nat.geolocation.get((err, location) => {
+    if(err) console.log("Could not get location", err)
+ 
+    const { latitude, longitude } = location
+    __fetchAndRenderLocation.call(this, latitude, longitude);
+  })
+}
+
+function __fetchAndRenderLocation(latitude, longitude) {
+  console.log("CALLED?")
+  stream.fetch({
+      method: 'GET',
+      type: 'json',
+      url: `http://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&sensor=true`
+    }, (response) => {
+      const address = response.data.results[0].formatted_address
+      const location = { address, latitude, longitude }
+      this.isWeb ? ___renderWebLocation.call(this, location) : ___renderMobileLocation.call(this, location)
+    })
+}
+
+function ___renderMobileLocation(location) {
+  const { address, latitude, longitude} = location
+  this.geoLocationCoords = { latitude, longitude }
+  this.address = address
+}
+
+function ___renderWebLocation(location) {
+  const { address, latitude, longitude} = location
+  this.geoLocationCoords = { latitude, longitude }
+  this.address = address
+}
+
+function _getMobileScanner() {
+// Quagga.init({
+//     inputStream : {
+//       name : "Live",
+//       type : "VideoStream",
+//       target: this.$refs.scannerElement.$el,
+//     },
+//     decoder : {
+//       readers : ["code_128_reader"]
+//     }
+// }, function(err) {
+//     if (err) {
+//       console.log(err);
+//       return
+//     }
+//     console.log("Initialization finished. Ready to start");
+//     Quagga.start();
+//   });
 }

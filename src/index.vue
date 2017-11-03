@@ -4,35 +4,35 @@
     <div class="container">
       <div ref="titleContainer" class="title-container" v-bind:style="{transform: isAnimationOver ? 'translateY(-10px)' : 'translateY(10px)'  }">
         <text ref="title" class="title" v-bind:class="{web: isWeb}">soNative</text>
-        <text class="subtitle" >Implementation of native components using Weex</text>
       </div>
       <div class="modules-container">
-        <text class="module-toggle" v-bind:class="{web: isWeb, active: isAccActive }" animationSwitch="isCamActive" @click="handleCaptureImage" >Camera</text>
+        <input class="hidden" type="file" accept="image/*" capture="camera" ref="imgPicker">
+        <text class="module-toggle" v-bind:class="{web: isWeb, active: isCamActive }" animationSwitch="isCamActive" @click="handleCaptureImage" >Camera</text>
         <text class="module-toggle" v-bind:class="{web: isWeb, active: isAccActive }" animationSwitch="isAccActive" @click="handleAccelerometerToggle" >Accelerometer</text>
         <div class="module-text-container">
           <div class="box">
-            <text class="module-text" >X: </text><text class="accelerometer-data">{{accelerometerData.x}}</text>
+            <text class="module-text" >X: </text><text class="accelerometer-data">{{accelerometerCoords.x}}</text>
           </div>
           <div class="box">
-            <text class="module-text" >Y: </text><text class="accelerometer-data">{{accelerometerData.y}}</text>
+            <text class="module-text" >Y: </text><text class="accelerometer-data">{{accelerometerCoords.y}}</text>
           </div>
           <div class="box">
-            <text class="module-text" >Z: </text><text class="accelerometer-data">{{accelerometerData.z}}</text>
+            <text class="module-text" >Z: </text><text class="accelerometer-data">{{accelerometerCoords.z}}</text>
           </div>
         </div>
         <div ref="scannerElement"></div>
         <!-- <video ref="videoEl"></video> -->
-        <text class="module-toggle" v-bind:class="{web: isWeb, active: isAccActive }" animationSwitch="isScanActive"@click="handleScannerToggle" id="scannerElement" >Scanner</text>
-        <text class="module-toggle" v-bind:class="{web: isWeb, active: isAccActive }" animationSwitch="isGeoActive" @click="handleGetGeolocation" >Geolocation</text>
+        <text class="module-toggle" v-bind:class="{web: isWeb, active: isScanActive }" animationSwitch="isScanActive"@click="handleScannerToggle" id="scannerElement" >Scanner</text>
+        <text class="module-toggle" v-bind:class="{web: isWeb, active: isGeoActive }" animationSwitch="isGeoActive" @click="handleGetGeolocation" >Geolocation</text>
         <div class="module-text-container-column">
           <div class="box">
             <text>{{address}}</text>
           </div>
           <div class="box">
-            <text class="module-text" >lat: </text><text class="geolocation-data">{{geoLocationData.latitude}}</text>
+            <text class="module-text" >lat: </text><text class="geolocation-data">{{geoLocationCoords.latitude}}</text>
           </div>
           <div class="box">
-            <text class="module-text" >lon: </text><text class="geolocation-data">{{geoLocationData.longitude}}</text>
+            <text class="module-text" >lon: </text><text class="geolocation-data">{{geoLocationCoords.longitude}}</text>
           </div>
         </div>
       </div>
@@ -47,15 +47,8 @@
 
 
 <script>
-///////////
-import Quagga from 'quagga' // -TODO
-// import BarcodeScanner from '../plugins/cordova-plugin-barcodescanner/www/barcodescanner'
-// const plugin = weex.requireModule('weexMapcomponent') // -TODO
-///////////
 import { accelerometerToggle, captureImage, scannerToggle, getGeolocation } from './actions/index'
-
 const animation = weex.requireModule('animation')
-
 const { deviceWidth, deviceHeight } = weex.config.env
 
 export default { 
@@ -75,19 +68,17 @@ export default {
       width: deviceWidth
     },
     images: [],
-    accelerometerData: {
+    accelerometerCoords: {
       x: 0,
       y: 0,
       z: 0
     },
-    geoLocationData: {
+    geoLocationCoords: {
       latitude: 0,
       longitude: 0,
     }
   },
   mounted () {
-    console.log("AM I WEB ? ", this.isWeb)
-    console.log("ELEMENT ", this.$refs.title)
     _initializeView.call(this)
   },
   methods: {
@@ -101,9 +92,10 @@ export default {
       }
       else {
         return {
+          position: 'absolute',
           height: `${this.screen.height}px`,
           width: `${this.screen.width}px`,
-          opacity: 1
+          opacity: 0.2
         }
       }
     },
@@ -139,14 +131,13 @@ function _updateBackground() {
   this.$refs.background.style.opacity = 0.6
 }
 
-function _animateBtn(e) { // Hacky btn press feedback
+function _animateBtn(e) { // Hacky btn press feedback | ?only on mobile browser
   let animationSwitch
-  if(weex.config.env.platform === "Web") {
+  if(this.isWeb) {
     animationSwitch = e.target.attrs.animationSwitch
   }
   else {
     animationSwitch = e.target.attr.animationSwitch
-    console.log("ANIMATION SWITCH", animationSwitch)
   }
   this[animationSwitch] = true
   setTimeout(() => this[animationSwitch] = false, 500)
@@ -154,7 +145,6 @@ function _animateBtn(e) { // Hacky btn press feedback
 
 function ___manuallySetOpacity() {
   this.isAnimationOver = true
-  console.log("AFTER ANIMATON", this.$refs.background)
 }
 
 function __fadeInBackground() {
@@ -185,32 +175,5 @@ function __fadeInTitle() {
 function _initializeView() {
   this.isWeb ? __fadeInBackground.call(this) : null // -TODO animate on mobile
   setTimeout(__fadeInTitle.bind(this), 2000)
-  // BarcodeScanner.scan(
-  //   function (result) {
-  //   alert("We got a barcode\n" +
-  //     "Result: " + result.text + "\n" +
-  //     "Format: " + result.format + "\n" +
-  //     "Cancelled: " + result.cancelled);
-  //   },
-  //   function (error) {
-  //     alert("Scanning failed: " + error);
-  //   })
-// Quagga.init({
-//     inputStream : {
-//       name : "Live",
-//       type : "LiveStream",
-//       target: this.$refs.scannerElement.$el
-//     },
-//     decoder : {
-//       readers : ["code_128_reader"]
-//     }
-//   }, function(err) {
-//       if (err) {
-//           console.log(err);
-//           return
-//       }
-//       console.log("Initialization finished. Ready to start");
-//       Quagga.start();
-//   });
 }
 </script>
