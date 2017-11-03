@@ -1,6 +1,6 @@
 
 # soNative
-implementation of native components using weex and VueJS 2
+implementation of native components using weex and VueJS 2.
 
 ## Getting started
 
@@ -26,10 +26,10 @@ implementation of native components using weex and VueJS 2
 ### on computer browser
 - not fully supported/tested yet
 
-# Demo
-![Native Browser](https://media.giphy.com/media/3o6ggbvpEwU9JvR5Be/giphy.gif "Native Browser Demo")
+## Demo
+![](https://thumbs.gfycat.com/TimelySphericalAsianwaterbuffalo-size_restricted.gif "Native Browser Demo")
 
-![Native App](https://media.giphy.com/media/xT0CyLQSvwiHXZ8ELe/giphy.gif "Native App Demo")
+![](https://thumbs.gfycat.com/EnchantingUnfitFritillarybutterfly-size_restricted.gif "Native App Demo")
 
 ## Highlights
 - Implemented camera component **native**, *native browser*
