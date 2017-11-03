@@ -1,3 +1,4 @@
+
 const pathTo = require('path');
 const fs = require('fs-extra');
 const webpack = require('webpack');
@@ -11,20 +12,23 @@ let fileType = '';
 const getEntryFileContent = (entryPath, vueFilePath) => {
     let relativePath = pathTo.relative(pathTo.join(entryPath, '../'), vueFilePath);
     let contents = '';
+    const isIndex = relativePath.includes('index')
     /**
      * The plugin's logic currently only supports the .we version
      * which will be supported later in .vue
      */
-    if (hasPluginInstalled) {
+    if (hasPluginInstalled && isIndex) {
       const plugindir = pathTo.resolve('./web/plugin.js');
       contents = 'require(\'' + plugindir + '\') \n';
     }
     if (isWin) {
       relativePath = relativePath.replace(/\\/g, '\\\\');
     }
-    contents += 'var App = require(\'' + relativePath + '\')\n';
-    contents += 'App.el = \'#root\'\n';
-    contents += 'new Vue(App)\n';
+    if (isIndex) {
+      contents += 'var App = require(\'' + relativePath + '\')\n';
+      contents += 'App.el = \'#root\'\n';
+      contents += 'new Vue(App)\n';
+    }
     return contents;
   }
   // Retrieve entry file mappings by function recursion
@@ -107,14 +111,18 @@ const webConfig = {
       use: [{
         loader: 'babel-loader'
       }],
-      exclude: [/node_modules(?!\/.*(weex).*)/]
+      exclude: [/node_modules(?!\/.*(weex).*)/, /node_modules(?!\/.*(cordova).*)/]
     }, {
       test: /\.vue(\?[^?]+)?$/,
       use: [{
         loader: 'vue-loader'
       }],
-      exclude: [/node_modules(?!\/.*(cordova).*)/]
-    }]
+      exclude: [/node_modules(?!\/.*(cordova).*)/, /node_modules(?!\/.*(cordova).*)/]
+    },
+    {
+      test: /\.css$/,
+      use: [ 'style-loader', 'css-loader' ]
+      }]
   },
   /*
    * Add additional plugins to the compiler.
@@ -141,7 +149,7 @@ const weexConfig = {
       use: [{
         loader: 'babel-loader'
       }],
-      exclude: /node_modules(?!\/.*(weex).*)/
+      exclude: [/node_modules(?!\/.*(weex).*)/, /node_modules(?!\/.*(cordova).*)/]
     }, {
       test: /\.vue(\?[^?]+)?$/,
       use: [{
@@ -152,7 +160,11 @@ const weexConfig = {
       use: [{
         loader: 'weex-loader'
       }]
-    }]
+    },
+    {
+      test: /\.css$/,
+      use: [ 'style-loader', 'css-loader' ]
+      }]
   },
   /*
    * Add additional plugins to the compiler.
