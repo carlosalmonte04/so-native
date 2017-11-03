@@ -111,13 +111,13 @@ const webConfig = {
       use: [{
         loader: 'babel-loader'
       }],
-      exclude: [/node_modules(?!\/.*(weex).*)/]
+      exclude: [/node_modules(?!\/.*(weex).*)/, /node_modules(?!\/.*(cordova).*)/]
     }, {
       test: /\.vue(\?[^?]+)?$/,
       use: [{
         loader: 'vue-loader'
       }],
-      exclude: [/node_modules(?!\/.*(cordova).*)/]
+      exclude: [/node_modules(?!\/.*(cordova).*)/, /node_modules(?!\/.*(cordova).*)/]
     },
     {
       test: /\.css$/,
@@ -149,7 +149,7 @@ const weexConfig = {
       use: [{
         loader: 'babel-loader'
       }],
-      exclude: /node_modules(?!\/.*(weex).*)/
+      exclude: [/node_modules(?!\/.*(weex).*)/, /node_modules(?!\/.*(cordova).*)/]
     }, {
       test: /\.vue(\?[^?]+)?$/,
       use: [{

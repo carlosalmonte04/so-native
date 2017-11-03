@@ -61,11 +61,12 @@
     }
   }
 
-////////
-//
-// Helper functions
-//
-////////
+
+  //////////////////
+  //
+  // Helper functions
+  //
+  //////////////////
 
   function _updateBackground() {
     this.backgroundImage = picture.path
@@ -84,19 +85,15 @@
     setTimeout(() => this[animationSwitch] = false, 500)
   }
 
-  function ___manuallySetOpacity() {
-    this.isAnimationOver = true
-  }
-
   function __fadeInBackground() {
     animation.transition(this.$refs.background, {
       styles: {
         opacity: 1
       },
-      duration: 5000, //ms
+      duration: 5000,
       timingFunction: 'ease',
       needLayout:false,
-      delay: 0 //ms
+      delay: 0 
     })
   }
 
@@ -106,10 +103,10 @@
         opacity: 1,
         transform: 'translateY(-10px)'
       },
-      duration: 1000, //ms
+      duration: 1000, 
       timingFunction: 'ease',
       needLayout:false,
-      delay: 0 //ms
+      delay: 0 
     })
   }
 
@@ -118,10 +115,10 @@
       styles: {
         opacity: 1,
       },
-      duration: 3000, //ms
+      duration: 3000,
       timingFunction: 'ease',
       needLayout:false,
-      delay: 0 //ms
+      delay: 0 
     }) 
   }
 

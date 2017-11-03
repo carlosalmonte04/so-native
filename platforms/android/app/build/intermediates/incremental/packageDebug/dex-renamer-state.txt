@@ -1,4 +1,4 @@
-#Mon Feb 27 16:34:42 CST 2017
-base.0=/Users/budao/app-framework-android/bin/templates/app/build/intermediates/transforms/dex/debug/folders/1000/1f/main
+#Fri Nov 03 18:38:19 EDT 2017
+base.0=/Users/CarlosAlmonte/Desktop/HelloWorld/platforms/android/app/build/intermediates/transforms/dex/debug/folders/1000/1f/main
 renamed.0=classes.dex
-file.0=/Users/budao/app-framework-android/bin/templates/app/build/intermediates/transforms/dex/debug/folders/1000/1f/main/classes.dex
+file.0=/Users/CarlosAlmonte/Desktop/HelloWorld/platforms/android/app/build/intermediates/transforms/dex/debug/folders/1000/1f/main/classes.dex

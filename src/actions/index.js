@@ -1,9 +1,9 @@
 import Nat from 'natjs'
 import { pedometer } from 'pedometer'
-import Quagga from 'quagga' // -TODO
+// import Quagga from 'quagga' // -TODO
 var stream = weex.requireModule('stream')
 
-let counter              = 0
+let counter              = 0 // steps throttle - line 65
 let altitudeHistory      = []
 let accelerometerHistory = []
 
@@ -120,7 +120,7 @@ function __fetchAndRenderLocation(latitude, longitude) {
   stream.fetch({
       method: 'GET',
       type: 'json',
-      url: `https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyBZaIlmEzmho9ltpSZY1g2at6rXAYdJZfM&latlng=${latitude},${longitude}&sensor=true`
+      url: `https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyBZaIlmEzmho9ltpSZY1g2at6rXAYdJZfM&latlng=${latitude},${longitude}&sensor=true` // -TODO save apiKey on ENV variable
     }, function(response) {
       const address = response.data.results[0].formatted_address
       const location = { address, latitude, longitude }
@@ -158,4 +158,15 @@ function _getMobileScanner() {
 //     console.log("Initialization finished. Ready to start");
 //     Quagga.start();
 //   });
+//   cordova.plugins.barcodeScanner.scan(
+// function (result) {
+// alert("We got a barcode\n" +
+// "Result: " + result.text + "\n" +
+// "Format: " + result.format + "\n" +
+// "Cancelled: " + result.cancelled);
+// },
+// function (error) {
+// alert("Scanning failed: " + error);
+// }
+// );
 }

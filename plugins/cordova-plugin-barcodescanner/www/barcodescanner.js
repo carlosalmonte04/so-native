@@ -120,11 +120,12 @@ var ScannerLoader = function (require, exports, module) {
     };
 
     var barcodeScanner = new BarcodeScanner();
+    console.log("NEWE CREATED!")
     module.exports = barcodeScanner;
 
 }
 
-ScannerLoader(require, exports, module);
+
 
 // cordova.define("cordova/plugin/BarcodeScanner", ScannerLoader);
 Vue.use(ScannerLoader)
