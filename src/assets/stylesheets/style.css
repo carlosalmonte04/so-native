@@ -6,28 +6,42 @@
 
 .background {
   position: absolute;
-  height: 100%;
   width: 100%;
-  opacity: 0.1
+  height: 100%;
  } 
 .container { 
   display: flex;
   align-items: center;
+  margin: 30px 30px;
 }
-.title { 
-  padding-top:40px;
+.title-container {
+  display: flex;
+  align-items: center;
+  opacity: 0;
+}
+.title.web { 
   font-weight: 100;
   color: #262526;
+  font-size: 100px
 } /* -TODO: dynamic font-size on android*/
+.title { 
+  font-weight: 100;
+  color: #262526;
+  font-size: 180px
+} /* -TODO: dynamic font-size on android*/
+.subtitle {
+  text-align: center;
+  font-size: medium;
+}
 .modules-container { 
-  margin-top: 100px;
+  margin-top: 44px;
   display: flex;
   align-items: center
 }
-.module-toggle { 
+.module-toggle.web { 
   padding-top:40px;
-  font-size: 100px;
   margin: 20px !important;
+  font-size: calc(4.5vw + 4.5vh);
   font-weight: 300;
   color: #3f3e3f;
   border-color: #3f3e3f;
@@ -41,6 +55,28 @@
   transition-duration: 0.5s;
   transition-delay: 0s;
   transition-timing-function: ease;
+  background-color: white;
+  box-shadow: -2px 3px 5px #777777;
+}
+.module-toggle { 
+  padding-top:40px;
+  margin: 20px !important;
+  font-size: 80px;
+  font-weight: 300;
+  color: #3f3e3f;
+  border-color: #3f3e3f;
+  border-style: solid;
+  border-width:  3px;
+  border-radius: 15px;
+  padding: 0px 31px !important;
+  cursor: pointer;
+  text-align: center;
+  transition-property: backgroundColor;
+  transition-duration: 0.5s;
+  transition-delay: 0s;
+  transition-timing-function: ease;
+  background-color: white;
+  box-shadow: -2px 3px 5px #777777;
 }
 .module-toggle.active {
   background-color: #cbc5cb
@@ -48,14 +84,40 @@
 .box {
   display: flex;
   flex-direction: row;
-  margin-left: 60px;
+  margin: 10px;
+  font-size: 72px;
+  font-weight: 500;
+  color: #3b393b;
+}
+
+.accelerometer-data {
+  font-size: 75px;
+  font-weight: 400;
+  color: #333133;
+}
+.geolocation-data {
+  font-size: 50px;
+  font-weight: 400;
+  color: #333133;
 }
 .module-text-container { 
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  text-align: center;
+  justify-content: space-evenly;
+  align-items: center;
+  align-self: center;
+}
+.module-text-container-column { 
+  flex-direction: column !important;
+  align-items: center;
+  max-width: 100%
 }
 .module-text { 
+  font-size: 22px
+}
+
+.footer {
   font-size: 22px
 }
 .logo { 

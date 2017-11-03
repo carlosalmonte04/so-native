@@ -1,23 +1,10 @@
 import Nat from 'natjs'
 import { pedometer } from 'pedometer'
+var stream = weex.requireModule('stream')
 
+let counter              = 0
+let altitudeHistory      = []
 let accelerometerHistory = []
-let altitudeHistory = []
-let counter    = 0
-
-// import cordova from 'cordova'
-
-function _resetSteps() {
-  accelerometerHistory = []
-  altitudeHistory = []
-  counter    = 0
-}
-
-function _renderImage(picturePath) {
-  return(`
-    <image src="${picturePath}" resize="cover"></image>
-  `)
-}
 
 export function accelerometerToggle() {
   if(this.accelerometerIsOn) {
@@ -84,8 +71,38 @@ export function scannerToggle() {
 }
 
 export function getGeolocation() {
-  Nat.geolocation.watch((err, loc) => {
-      if(err) console.log("Could not get location", err)
-      console.log("I AM THE LOCATION", loc)
+  Nat.geolocation.get((err, location) => {
+    if(err) console.log("Could not get location", err)
+
+    const { latitude, longitude } = location
+
+    stream.fetch({
+          method: 'GET',
+          type: 'json',
+          url: `http://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&sensor=true`
+        }, (response) => {
+          this.geoLocationData = { latitude, longitude }
+          this.address = response.data.results[0].formatted_address
+        })
   })
+}
+
+////////
+//
+// helper functions
+//
+////////
+
+
+
+function _resetSteps() {
+  counter              = 0
+  altitudeHistory      = []
+  accelerometerHistory = []
+}
+
+function _renderImage(picturePath) {
+  return(`
+    <image src="${picturePath}" resize="cover"></image>
+  `)
 }

@@ -1,12 +1,14 @@
 <template>
   <div class="wrapper" >
-    <image ref="background" :src="backgroundImage" class="background" resize="cover" v-bind:style="{width: screen.width, height: screen.height}"></image>
+    <image ref="background" :src="backgroundImage" class="background" resize="cover" v-bind:style="getBackgroundStyle()"></image>
     <div class="container">
-      <text class="title" v-bind:style="{fontSize: ((screen.width * 0.095) + (screen.height * 0.095)).toString() + 'px'}">soNative</text>
-      <text class="subtitle" v-bind:style="{fontSize: ((screen.width * 0.012) + (screen.height * 0.012)).toString() + 'px'}">Implementation of native components using Weex</text>
+      <div ref="titleContainer" class="title-container" v-bind:style="{transform: isAnimationOver ? 'translateY(-10px)' : 'translateY(10px)'  }">
+        <text ref="title" class="title" v-bind:class="{web: isWeb}">soNative</text>
+        <text class="subtitle" >Implementation of native components using Weex</text>
+      </div>
       <div class="modules-container">
-        <text class="module-toggle" animationSwitch="isCamActive" v-bind:class="{ active: isCamActive}" @click="handleCaptureImage" >Camera</text>
-        <text class="module-toggle" animationSwitch="isAccActive" v-bind:class="{ active: isAccActive}" @click="handleAccelerometerToggle" >Accelerometer</text>
+        <text class="module-toggle" v-bind:class="{web: isWeb, active: isAccActive }" animationSwitch="isCamActive" @click="handleCaptureImage" >Camera</text>
+        <text class="module-toggle" v-bind:class="{web: isWeb, active: isAccActive }" animationSwitch="isAccActive" @click="handleAccelerometerToggle" >Accelerometer</text>
         <div class="module-text-container">
           <div class="box">
             <text class="module-text" >X: </text><text class="accelerometer-data">{{accelerometerData.x}}</text>
@@ -19,25 +21,28 @@
           </div>
         </div>
         <div ref="scannerElement"></div>
-        <video ref="videoEl"></video>
-        <text class="module-toggle" animationSwitch="isScanActive" v-bind:class="{ active: isScanActive}" @click="handleScannerToggle" id="scannerElement" >Scanner</text>
-        <text class="module-toggle" animationSwitch="isGeoActive" v-bind:class="{ active: isGeoActive}" @click="handleGetGeolocation" >Geolocation</text>
-        <div class="module-text-container">
+        <!-- <video ref="videoEl"></video> -->
+        <text class="module-toggle" v-bind:class="{web: isWeb, active: isAccActive }" animationSwitch="isScanActive"@click="handleScannerToggle" id="scannerElement" >Scanner</text>
+        <text class="module-toggle" v-bind:class="{web: isWeb, active: isAccActive }" animationSwitch="isGeoActive" @click="handleGetGeolocation" >Geolocation</text>
+        <div class="module-text-container-column">
           <div class="box">
-            <text class="module-text" >lat: </text><text class="accelerometer-data">{{geoLocationData.x}}</text>
+            <text>{{address}}</text>
           </div>
           <div class="box">
-            <text class="module-text" >lon: </text><text class="accelerometer-data">{{geoLocationData.z}}</text>
+            <text class="module-text" >lat: </text><text class="geolocation-data">{{geoLocationData.latitude}}</text>
+          </div>
+          <div class="box">
+            <text class="module-text" >lon: </text><text class="geolocation-data">{{geoLocationData.longitude}}</text>
           </div>
         </div>
       </div>
-      <text style="margin-bottom: 20px;">by Carlos Almonte</text>
+      <text class="footer" style="margin-bottom: 20px;">by Carlos Almonte</text>
   </div>
 </div>
 </template>
 
-<style>
-  @import './assets/stylesheets/style.css';
+<style src="./assets/stylesheets/style.css">
+
 </style>
 
 
@@ -47,21 +52,24 @@ import Quagga from 'quagga' // -TODO
 // import BarcodeScanner from '../plugins/cordova-plugin-barcodescanner/www/barcodescanner'
 // const plugin = weex.requireModule('weexMapcomponent') // -TODO
 ///////////
-
-
 import { accelerometerToggle, captureImage, scannerToggle, getGeolocation } from './actions/index'
+
+const animation = weex.requireModule('animation')
 
 const { deviceWidth, deviceHeight } = weex.config.env
 
 export default { 
   data: {
+    isWeb: !!(weex.config.env.platform === 'Web'),
     steps: 0,
     isCamActive  : false,
     isAccActive  : false,
     isScanActive : false,
     isGeoActive  : false,
     accelerometerIsOn: false,
-    backgroundImage: 'https://static.pexels.com/photos/2255/black-and-white-city-houses-skyline.jpg',
+    isAnimationOver: false,
+    address : 'Press geolocation to get address',
+    backgroundImage: 'http://24.media.tumblr.com/fd5267ff1121b0d3eb331a2bf831f0de/tumblr_meols6ozIo1qg39ewo1_500.gif',
     screen: {
       height: deviceHeight,
       width: deviceWidth
@@ -73,16 +81,33 @@ export default {
       z: 0
     },
     geoLocationData: {
-      lat: 0,
-      lon: 0,
+      latitude: 0,
+      longitude: 0,
     }
   },
   mounted () {
-    console.log("")
+    console.log("AM I WEB ? ", this.isWeb)
+    console.log("ELEMENT ", this.$refs.title)
     _initializeView.call(this)
   },
   methods: {
-    handleGetGeolocation(e) { // -TODO
+    getBackgroundStyle() {
+      if (this.isWeb) {
+        return {
+          position: 'absolute',
+          width: '100%',
+          height: '100%',
+        }
+      }
+      else {
+        return {
+          height: `${this.screen.height}px`,
+          width: `${this.screen.width}px`,
+          opacity: 1
+        }
+      }
+    },
+    handleGetGeolocation(e) { 
       _animateBtn.call(this, e)
       getGeolocation.call(this)
     },
@@ -114,19 +139,52 @@ function _updateBackground() {
   this.$refs.background.style.opacity = 0.6
 }
 
-function _animateBtn(e) { // Hacky web btn press feedback
+function _animateBtn(e) { // Hacky btn press feedback
   let animationSwitch
   if(weex.config.env.platform === "Web") {
     animationSwitch = e.target.attrs.animationSwitch
   }
   else {
     animationSwitch = e.target.attr.animationSwitch
+    console.log("ANIMATION SWITCH", animationSwitch)
   }
   this[animationSwitch] = true
   setTimeout(() => this[animationSwitch] = false, 500)
 }
 
-function _initializeView() { // -TODO Rabbit hole
+function ___manuallySetOpacity() {
+  this.isAnimationOver = true
+  console.log("AFTER ANIMATON", this.$refs.background)
+}
+
+function __fadeInBackground() {
+  animation.transition(this.$refs.background, {
+    styles: {
+      opacity: 1
+    },
+    duration: 5000, //ms
+    timingFunction: 'ease',
+    needLayout:false,
+    delay: 0 //ms
+  }, ___manuallySetOpacity.bind(this))
+}
+
+function __fadeInTitle() {
+  animation.transition(this.$refs.titleContainer, {
+    styles: {
+      opacity: 1,
+      transform: 'translateY(-10px)'
+    },
+    duration: 1000, //ms
+    timingFunction: 'ease',
+    needLayout:false,
+    delay: 0 //ms
+  })
+}
+
+function _initializeView() {
+  this.isWeb ? __fadeInBackground.call(this) : null // -TODO animate on mobile
+  setTimeout(__fadeInTitle.bind(this), 2000)
   // BarcodeScanner.scan(
   //   function (result) {
   //   alert("We got a barcode\n" +
@@ -137,23 +195,22 @@ function _initializeView() { // -TODO Rabbit hole
   //   function (error) {
   //     alert("Scanning failed: " + error);
   //   })
-  Quagga.init({
-    inputStream : {
-      name : "Live",
-      type : "LiveStream",
-      target: this.$refs.scannerElement.$el,
-      videoEl: this.$refs.videoEl.$el,
-    },
-    decoder : {
-      readers : ["code_128_reader"]
-    }
-  },function(err) {
-      if (err) {
-        console.log(err);
-        return
-      }
-      console.log("Initialization finished. Ready to start");
-      Quagga.start();
-    });
+// Quagga.init({
+//     inputStream : {
+//       name : "Live",
+//       type : "LiveStream",
+//       target: this.$refs.scannerElement.$el
+//     },
+//     decoder : {
+//       readers : ["code_128_reader"]
+//     }
+//   }, function(err) {
+//       if (err) {
+//           console.log(err);
+//           return
+//       }
+//       console.log("Initialization finished. Ready to start");
+//       Quagga.start();
+//   });
 }
 </script>
