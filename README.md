@@ -27,7 +27,9 @@ implementation of native components using weex and VueJS 2
 - not fully supported/tested yet
 
 # Demo
-![](https://media.giphy.com/media/l0CPbTxDLdmgHRjQk/giphy.gif "")
+![Native Browser](https://media.giphy.com/media/3o6ggbvpEwU9JvR5Be/giphy.gif "Native Browser Demo")
+
+![Native App](https://media.giphy.com/media/xT0CyLQSvwiHXZ8ELe/giphy.gif "Native App Demo")
 
 ## Highlights
 - Implemented camera component **native**, *native browser*
