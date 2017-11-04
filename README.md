@@ -39,7 +39,7 @@ Native Web Browser         |    Native App (ios)
 - Implemented geolocation alongh with Google Maps API fetches to get address - ***computer browser***, ***native ios browser***, ***native ios***
 - Implemented necessary native permissions to enable HTTP protocol, Camera and Geolocation access
 
-## Todo
+## Todo - ***Open to pull requests!***
 - Implement scanner
 - Refactoring
 - Save picture
