@@ -34,9 +34,9 @@ Native Web Browser         |    Native App (ios)
               
 
 ## Highlights
-- Implemented camera component - ***native***, ***native browser***
-- Implemented accelerometer - ***native***
-- Implemented geolocation alongh with Google Maps API fetches to get address - ***computer browser***, ***native browser***, ***native***
+- Implemented camera component - ***native ios***, ***native browser***
+- Implemented accelerometer - ***native ios***
+- Implemented geolocation alongh with Google Maps API fetches to get address - ***computer browser***, ***native ios browser***, ***native ios***
 - Implemented necessary native permissions to enable HTTP protocol, Camera and Geolocation access
 
 ## Todo
