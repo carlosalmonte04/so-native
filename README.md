@@ -1,6 +1,6 @@
 
 # soNative
-implementation of native components using weex and VueJS 2.
+Implementation of native components using weex and VueJS 2.
 
 ## Getting started
 
@@ -27,15 +27,17 @@ implementation of native components using weex and VueJS 2.
 - not fully supported/tested yet
 
 ## Demo
-![](https://thumbs.gfycat.com/TimelySphericalAsianwaterbuffalo-size_restricted.gif "Native Browser Demo")
+Native Web Browser         |    Native App (ios)
+:-------------------------:|:-------------------------:
+![](https://thumbs.gfycat.com/TimelySphericalAsianwaterbuffalo-size_restricted.gif "Native Browser Demo")   |  ![](https://thumbs.gfycat.com/EnchantingUnfitFritillarybutterfly-size_restricted.gif "Native App Demo")
 
-![](https://thumbs.gfycat.com/EnchantingUnfitFritillarybutterfly-size_restricted.gif "Native App Demo")
+              
 
 ## Highlights
-- Implemented camera component **native**, *native browser*
-- Implemented accelerometer **native**
-- Implemented geolocation alongh with Google Maps API fetches to get address. **computer browser**, **native browser**, **native**
-- Implemented neccessary native permissions to enable HTTP protocol, Camera and Geolocation access.
+- Implemented camera component - ***native***, ***native browser***
+- Implemented accelerometer - ***native***
+- Implemented geolocation alongh with Google Maps API fetches to get address - ***computer browser***, ***native browser***, ***native***
+- Implemented necessary native permissions to enable HTTP protocol, Camera and Geolocation access
 
 ## Todo
 - Implement scanner
