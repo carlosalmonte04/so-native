@@ -4,6 +4,12 @@ Implementation of native components using weex and VueJS 2.
 
 *-see the [blog post](https://medium.com/@carlosalmonte04/weex-vuejs-first-application-bb3d5a5763fa) on Medium*
 
+## Demo
+Native Web Browser         |    Native App (ios)
+:-------------------------:|:-------------------------:
+![](https://thumbs.gfycat.com/TimelySphericalAsianwaterbuffalo-size_restricted.gif "Native Browser Demo")   |  ![](https://thumbs.gfycat.com/EnchantingUnfitFritillarybutterfly-size_restricted.gif "Native App Demo")
+
+
 ## Getting started
 
 ### on native web browsers 
@@ -26,14 +32,7 @@ Implementation of native components using weex and VueJS 2.
 - not fully supported/tested yet
 
 ### on computer browser
-- not fully supported/tested yet
-
-## Demo
-Native Web Browser         |    Native App (ios)
-:-------------------------:|:-------------------------:
-![](https://thumbs.gfycat.com/TimelySphericalAsianwaterbuffalo-size_restricted.gif "Native Browser Demo")   |  ![](https://thumbs.gfycat.com/EnchantingUnfitFritillarybutterfly-size_restricted.gif "Native App Demo")
-
-              
+- not fully supported/tested yet    
 
 ## Highlights
 - Implemented camera component - ***native ios***, ***native browser***
