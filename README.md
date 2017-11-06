@@ -2,6 +2,8 @@
 # soNative
 Implementation of native components using weex and VueJS 2.
 
+*-see the [blog post](https://medium.com/@carlosalmonte04/weex-vuejs-first-application-bb3d5a5763fa) on Medium*
+
 ## Getting started
 
 ### on native web browsers 
